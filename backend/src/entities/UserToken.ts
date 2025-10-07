@@ -1,36 +1,29 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  CreateDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
-import { v4 as uuid } from "uuid";
-import { User } from "./User.js";
+import { Entity, PrimaryColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { v4 as uuid } from 'uuid';
+import { User } from './User';
 
-@Entity("usuario_token") // nome da tabela
+@Entity('usuario_token') // nome da tabela
 export class UserToken {
-  @PrimaryColumn("text")
+  @PrimaryColumn('text')
   id!: string;
 
-  @Column("text")
+  @Column('text')
   refresh_token!: string;
 
-  @Column("text")
+  @Column('text')
   id_usuario!: string;
 
-  @Column("datetime")
+  @Column('datetime')
   expiracao_token!: Date;
 
-  @CreateDateColumn({ name: "dt_inclusao" })
+  @CreateDateColumn({ name: 'dt_inclusao' })
   dtInclusao!: Date;
 
   @ManyToOne(() => User, (user) => user.tokens, {
-    onUpdate: "CASCADE",
-    onDelete: "NO ACTION",
+    onUpdate: 'CASCADE',
+    onDelete: 'NO ACTION',
   })
-  @JoinColumn({ name: "id_usuario" })
+  @JoinColumn({ name: 'id_usuario' })
   user!: User;
 
   constructor() {

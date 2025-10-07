@@ -1,6 +1,6 @@
-import express from "express";
-import cors from "cors";
-import "./database/data-source.js";
+import express from 'express';
+import cors from 'cors';
+import './database/data-source';
 
 const app = express();
 

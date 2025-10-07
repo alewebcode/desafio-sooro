@@ -1,52 +1,45 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  CreateDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from "typeorm";
-import { v4 as uuid } from "uuid";
-import { User } from "./User.js";
+import { Entity, PrimaryColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { v4 as uuid } from 'uuid';
+import { User } from './User';
 
-@Entity("avaliacao_imc")
+@Entity('avaliacao_imc')
 export class ImcEvaluation {
-  @PrimaryColumn("text")
+  @PrimaryColumn('text')
   id!: string;
 
-  @Column("decimal")
+  @Column('decimal')
   altura!: number;
 
-  @Column("decimal")
+  @Column('decimal')
   peso!: number;
 
-  @Column("decimal")
+  @Column('decimal')
   imc!: number;
 
-  @Column("text")
+  @Column('text')
   classificacao!: string;
 
-  @Column("text")
+  @Column('text')
   id_usuario_avaliacao!: string;
 
-  @Column("text")
+  @Column('text')
   id_usuario_aluno!: string;
 
-  @CreateDateColumn({ name: "dt_inclusao" })
+  @CreateDateColumn({ name: 'dt_inclusao' })
   dtInclusao!: Date;
 
   @ManyToOne(() => User, (user) => user.avaliacoesFeitas, {
-    onUpdate: "CASCADE",
-    onDelete: "NO ACTION",
+    onUpdate: 'CASCADE',
+    onDelete: 'NO ACTION',
   })
-  @JoinColumn({ name: "id_usuario_avaliacao" })
+  @JoinColumn({ name: 'id_usuario_avaliacao' })
   teacher!: User;
 
   @ManyToOne(() => User, (user) => user.avaliacoesRecebidas, {
-    onUpdate: "CASCADE",
-    onDelete: "NO ACTION",
+    onUpdate: 'CASCADE',
+    onDelete: 'NO ACTION',
   })
-  @JoinColumn({ name: "id_usuario_aluno" })
+  @JoinColumn({ name: 'id_usuario_aluno' })
   student!: User;
 
   constructor() {

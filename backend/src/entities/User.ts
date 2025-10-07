@@ -1,35 +1,29 @@
-import {
-  Entity,
-  PrimaryColumn,
-  Column,
-  CreateDateColumn,
-  OneToMany,
-} from "typeorm";
-import { v4 as uuid } from "uuid";
-import { UserToken } from "./UserToken.js";
-import { ImcEvaluation } from "./ImcEvaluation.js";
+import { Entity, PrimaryColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
+import { v4 as uuid } from 'uuid';
+import { UserToken } from './UserToken';
+import { ImcEvaluation } from './ImcEvaluation';
 
-@Entity("usuario")
+@Entity('usuario')
 export class User {
-  @PrimaryColumn("text")
+  @PrimaryColumn('text')
   id!: string;
 
-  @Column("text")
+  @Column('text')
   nome!: string;
 
-  @Column("text", { unique: true })
+  @Column('text', { unique: true })
   usuario!: string;
 
-  @Column("text")
+  @Column('text')
   senha!: string;
 
-  @Column("text")
-  perfil!: "admin" | "professor" | "aluno";
+  @Column('text')
+  perfil!: 'admin' | 'professor' | 'aluno';
 
-  @Column("text")
-  situacao!: "ativo" | "inativo";
+  @Column('text')
+  situacao!: 'ativo' | 'inativo';
 
-  @CreateDateColumn({ name: "dt_inclusao" })
+  @CreateDateColumn({ name: 'dt_inclusao' })
   dtInclusao!: Date;
 
   @OneToMany(() => UserToken, (token) => token.user)
