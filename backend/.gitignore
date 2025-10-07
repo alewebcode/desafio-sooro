@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+
+# Environment variables
+.env
+
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+database.sqlite
+
+# Logs
+logs/
+*.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
