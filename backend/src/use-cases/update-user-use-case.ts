@@ -8,7 +8,7 @@ export interface UpdateUserRequest {
   usuario?: string;
   senha?: string;
   perfil?: Role;
-  status?: UserStatus;
+  situacao?: UserStatus;
 }
 
 interface PerformedBy {
@@ -38,7 +38,7 @@ export class UpdateUserUseCase {
     }
 
     // Apenas admin pode alterar role ou status
-    if ((payload.perfil || payload.status) && !isAdmin) {
+    if ((payload.perfil || payload.situacao) && !isAdmin) {
       throw new Error('Não autorizado a alterar perfil ou status');
     }
 
