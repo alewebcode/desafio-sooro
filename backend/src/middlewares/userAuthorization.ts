@@ -1,0 +1,12 @@
+import { Request, Response, NextFunction } from 'express';
+import { Role } from '../enums/user-role.enum';
+
+export function authorizeCreateUser() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (req.user?.role === Role.ALUNO) {
+      return res.status(403).json({ message: 'Alunos não possuem permissão para criar usuários.' });
+    }
+
+    next();
+  };
+}

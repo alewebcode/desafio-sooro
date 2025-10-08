@@ -30,8 +30,15 @@ export class AuthenticateUseCase {
       throw new Error('Usuário ou senha inválidos');
     }
 
-    const accessToken = sign({ userId: userFound.id }, process.env.JWT_SECRET!, {
-      expiresIn: '15m',
+    const payload = {
+      sub: userFound.id,
+      name: userFound.nome,
+      role: userFound.perfil,
+      status: userFound.situacao,
+    };
+
+    const accessToken = sign(payload, process.env.JWT_SECRET!, {
+      expiresIn: '1h',
     });
 
     const refreshToken = sign({ userId: userFound.id }, process.env.REFRESH_SECRET!, {

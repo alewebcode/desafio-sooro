@@ -22,4 +22,15 @@ export class TypeOrmUsersRepository implements UsersRepository {
 
     return userFound;
   }
+
+  async create(data: Partial<User>): Promise<User> {
+    const user = new User();
+    user.nome = data.nome!;
+    user.usuario = data.usuario!;
+    user.senha = data.senha!;
+    user.perfil = data.perfil!;
+    user.situacao = 'ativo';
+
+    return this.repository.save(user);
+  }
 }

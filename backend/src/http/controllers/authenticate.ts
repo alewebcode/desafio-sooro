@@ -1,7 +1,4 @@
 import { Request, Response } from 'express';
-import { AuthenticateUseCase } from '../../use-cases/authenticate';
-import { TypeOrmUsersRepository } from '../../repositories/typeorm/typeorm-users-repository';
-import { TypeOrmUsersTokenRepository } from '../../repositories/typeorm/typeorm-users-token-repository';
 import { makeAuthenticateUseCase } from '../../use-cases/factories/make-authenticate-use-case';
 import z from 'zod';
 
