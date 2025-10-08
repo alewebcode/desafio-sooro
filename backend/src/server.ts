@@ -1,9 +1,9 @@
 import { app } from './app';
-import { DatabaseConfig } from './database/data-source.js';
+import { AppDataSource } from './database/data-source.js';
 
 async function bootstrap() {
   try {
-    await DatabaseConfig.initialize();
+    await AppDataSource.initialize();
   } catch (error) {
     console.error('DB error', error);
     process.exit(1);
@@ -12,9 +12,10 @@ async function bootstrap() {
 
 app.listen(
   {
-    port: process.env.PORT,
+    port: process.env.PORT || 3000,
   },
   () => {
     console.log('Server running');
   },
 );
+bootstrap();
