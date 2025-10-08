@@ -33,4 +33,15 @@ export class TypeOrmUsersRepository implements UsersRepository {
 
     return this.repository.save(user);
   }
+  async update(id: string, data: Partial<User>): Promise<User> {
+    const user = await this.findById(id);
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    // Atualiza apenas os campos fornecidos
+    Object.assign(user, data);
+
+    return this.repository.save(user);
+  }
 }
