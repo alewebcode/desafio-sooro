@@ -14,6 +14,7 @@ import {
 } from '../middlewares/evaluationAuthorization';
 import { UpdateEvaluationController } from './controllers/update-evaluation';
 import { DeleteEvaluationController } from './controllers/delete-evaluation';
+import { GetEvaluationController } from './controllers/get-evaluation';
 
 const routes = Router();
 
@@ -25,6 +26,7 @@ const listUserController = new ListUserController();
 const createEvaluationController = new CreateEvaluationController();
 const updateEvaluationController = new UpdateEvaluationController();
 const deleteEvaluationController = new DeleteEvaluationController();
+const getEvaluationController = new GetEvaluationController();
 
 routes.post('/authenticate', authController.login);
 
@@ -59,5 +61,7 @@ routes.delete(
   authorizeDeleteEvaluation(),
   deleteEvaluationController.delete,
 );
+
+routes.get('/evaluations', ensureAuthenticated, getEvaluationController.list);
 
 export { routes };
