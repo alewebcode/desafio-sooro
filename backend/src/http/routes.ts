@@ -14,9 +14,10 @@ import {
 } from '../middlewares/evaluationAuthorization';
 import { UpdateEvaluationController } from './controllers/update-evaluation';
 import { DeleteEvaluationController } from './controllers/delete-evaluation';
-import { GetEvaluationController } from './controllers/get-evaluation';
+import { ListEvaluationController } from './controllers/list-evaluation';
 import { RefreshTokenController } from './controllers/refresh-token';
 import { GetUserController } from './controllers/get-user';
+import { GetEvaluationController } from './controllers/get-evaluation';
 
 const routes = Router();
 
@@ -28,6 +29,7 @@ const listUserController = new ListUserController();
 const createEvaluationController = new CreateEvaluationController();
 const updateEvaluationController = new UpdateEvaluationController();
 const deleteEvaluationController = new DeleteEvaluationController();
+const listEvaluationController = new ListEvaluationController();
 const getEvaluationController = new GetEvaluationController();
 const refreshTokenController = new RefreshTokenController();
 const getUserController = new GetUserController();
@@ -67,7 +69,8 @@ routes.delete(
   deleteEvaluationController.delete,
 );
 
-routes.get('/evaluations', ensureAuthenticated, getEvaluationController.list);
+routes.get('/evaluations', ensureAuthenticated, listEvaluationController.list);
+routes.get('/evaluations/:id', ensureAuthenticated, getEvaluationController.show);
 routes.post('/refresh', refreshTokenController.handle);
 
 export { routes };
