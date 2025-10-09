@@ -28,3 +28,16 @@ export function authorizeDeleteUser() {
     next();
   };
 }
+
+export function authorizeListUser() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Usuário não autenticado' });
+    }
+    if (req.user?.role === Role.ALUNO) {
+      return res.status(403).json({ message: 'Aluno não possui permissão para listar usuários.' });
+    }
+
+    next();
+  };
+}

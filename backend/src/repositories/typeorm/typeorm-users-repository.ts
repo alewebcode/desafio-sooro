@@ -52,4 +52,8 @@ export class TypeOrmUsersRepository implements UsersRepository {
       await manager.getRepository(User).delete(id);
     });
   }
+
+  async findAll(): Promise<User[]> {
+    return this.repository.find();
+  }
 }

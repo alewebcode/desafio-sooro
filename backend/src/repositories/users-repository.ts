@@ -6,4 +6,5 @@ export interface UsersRepository {
   create(data: Partial<User>): Promise<User>;
   update(id: string, user: User): Promise<User>;
   delete(id: string): Promise<void>;
+  findAll(): Promise<User[]>;
 }
