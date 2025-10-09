@@ -7,4 +7,5 @@ export interface UsersRepository {
   update(id: string, user: User): Promise<User>;
   delete(id: string): Promise<void>;
   findAll(): Promise<User[]>;
+  countEvaluationsByStudentId(userId: string): Promise<number>;
 }

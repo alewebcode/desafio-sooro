@@ -3,6 +3,7 @@ import { AppDataSource } from '../../database/data-source';
 import { User } from '../../entities/User';
 import { UsersRepository } from '../users-repository';
 import { UserToken } from '../../entities/UserToken';
+import { ImcEvaluation } from '../../entities/ImcEvaluation';
 
 export class TypeOrmUsersRepository implements UsersRepository {
   constructor(private repository: Repository<User>) {}
@@ -55,5 +56,12 @@ export class TypeOrmUsersRepository implements UsersRepository {
 
   async findAll(): Promise<User[]> {
     return this.repository.find();
+  }
+  async countEvaluationsByStudentId(userId: string): Promise<number> {
+    const evalRepo = AppDataSource.getRepository(ImcEvaluation);
+    const count = await evalRepo.count({
+      where: { id_usuario_aluno: userId },
+    });
+    return count;
   }
 }

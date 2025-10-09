@@ -1,5 +1,3 @@
-// src/use-cases/get-evaluations-use-case.ts
-
 import { Role } from '../enums/user-role.enum';
 import {
   EvaluationsRepository,
