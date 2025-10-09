@@ -15,3 +15,18 @@ export function authorizeCreateEvaluation() {
     next();
   };
 }
+
+export function authorizeUpdateEvaluation() {
+  return (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Usuário não autenticado' });
+    }
+    if (req.user?.role === Role.ALUNO) {
+      return res
+        .status(403)
+        .json({ message: 'Alunos não possuem permissão para editar avaliações.' });
+    }
+
+    next();
+  };
+}

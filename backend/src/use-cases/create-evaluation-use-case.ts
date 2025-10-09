@@ -1,6 +1,6 @@
 import { ImcEvaluation } from '../entities/ImcEvaluation';
-import { User } from '../entities/User';
 import { EvaluationsRepository } from '../repositories/evaluations-repository';
+import { calculateBMI, classifyBMI } from '../utils/bmi';
 
 interface EvaluationRequest {
   altura: number;
@@ -21,9 +21,9 @@ export class CreateEvaluationUseCase {
   ): Promise<ImcEvaluation> {
     const { performedBy } = options;
 
-    const imc = payload.peso / (payload.altura * payload.altura);
+    const imc = calculateBMI(payload.peso, payload.altura);
 
-    const classificacao = this.classificarIMC(imc);
+    const classificacao = classifyBMI(imc);
     const altura = parseFloat(payload.altura.toFixed(2));
     const peso = parseFloat(payload.peso.toFixed(2));
 
@@ -37,14 +37,5 @@ export class CreateEvaluationUseCase {
     });
 
     return evaluation;
-  }
-
-  private classificarIMC(imc: number): string {
-    if (imc < 18.5) return 'Abaixo do peso';
-    if (imc < 24.9) return 'Peso normal';
-    if (imc < 29.9) return 'Sobrepeso';
-    if (imc < 34.9) return 'Obesidade grau I';
-    if (imc < 39.9) return 'Obesidade grau II';
-    return 'Obesidade grau III';
   }
 }
