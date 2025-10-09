@@ -21,8 +21,8 @@ export class UpdateUserController {
     }
     const payload = parsed.data;
 
-    const userIdToUpdate = req.params.id;
-    if (!userIdToUpdate) {
+    const userId = req.params.id;
+    if (!userId) {
       return res.status(400).json({ message: 'Id do usuário não informado' });
     }
 
@@ -30,7 +30,7 @@ export class UpdateUserController {
       const updateUserUseCase = makeUpdateUserUseCase();
       const currentUser = req.user!;
 
-      const result = await updateUserUseCase.execute(userIdToUpdate, payload, {
+      const result = await updateUserUseCase.execute(userId, payload, {
         performedBy: { id: currentUser.id, role: currentUser.role },
       });
 

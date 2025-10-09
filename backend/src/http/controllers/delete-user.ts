@@ -3,16 +3,16 @@ import { makeDeleteUserUseCase } from '../../use-cases/factories/make-delete-use
 
 export class DeleteUserController {
   async delete(req: Request, res: Response): Promise<Response> {
-    const userIdToDelete = req.params.id;
+    const userId = req.params.id;
 
-    if (!userIdToDelete) {
+    if (!userId) {
       return res.status(400).json({ message: 'Id do usuário não informado' });
     }
 
     try {
       const deleteUserUseCase = makeDeleteUserUseCase();
 
-      const result = await deleteUserUseCase.execute(userIdToDelete);
+      const result = await deleteUserUseCase.execute(userId);
 
       return res.json(result);
     } catch (err: any) {
