@@ -16,6 +16,7 @@ import { UpdateEvaluationController } from './controllers/update-evaluation';
 import { DeleteEvaluationController } from './controllers/delete-evaluation';
 import { GetEvaluationController } from './controllers/get-evaluation';
 import { RefreshTokenController } from './controllers/refresh-token';
+import { GetUserController } from './controllers/get-user';
 
 const routes = Router();
 
@@ -29,6 +30,7 @@ const updateEvaluationController = new UpdateEvaluationController();
 const deleteEvaluationController = new DeleteEvaluationController();
 const getEvaluationController = new GetEvaluationController();
 const refreshTokenController = new RefreshTokenController();
+const getUserController = new GetUserController();
 
 routes.post('/authenticate', authController.login);
 
@@ -42,6 +44,7 @@ routes.delete(
 );
 
 routes.get('/users', ensureAuthenticated, listUserController.list);
+routes.get('/users/:id', ensureAuthenticated, getUserController.show);
 
 routes.post(
   '/evaluations',
