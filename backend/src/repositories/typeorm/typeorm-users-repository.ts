@@ -2,6 +2,7 @@ import { Repository } from 'typeorm';
 import { AppDataSource } from '../../database/data-source';
 import { User } from '../../entities/User';
 import { UsersRepository } from '../users-repository';
+import { UserToken } from '../../entities/UserToken';
 
 export class TypeOrmUsersRepository implements UsersRepository {
   constructor(private repository: Repository<User>) {}
@@ -43,5 +44,12 @@ export class TypeOrmUsersRepository implements UsersRepository {
     Object.assign(user, data);
 
     return this.repository.save(user);
+  }
+  async delete(id: string): Promise<void> {
+    await AppDataSource.manager.transaction(async (manager) => {
+      await manager.getRepository(UserToken).delete({ id_usuario: id });
+
+      await manager.getRepository(User).delete(id);
+    });
   }
 }
