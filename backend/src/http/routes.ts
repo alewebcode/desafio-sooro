@@ -9,9 +9,11 @@ import { ListUserController } from './controllers/list-user';
 import { CreateEvaluationController } from './controllers/create-evaluation';
 import {
   authorizeCreateEvaluation,
+  authorizeDeleteEvaluation,
   authorizeUpdateEvaluation,
 } from '../middlewares/evaluationAuthorization';
 import { UpdateEvaluationController } from './controllers/update-evaluation';
+import { DeleteEvaluationController } from './controllers/delete-evaluation';
 
 const routes = Router();
 
@@ -22,6 +24,7 @@ const deleteUserController = new DeleteUserController();
 const listUserController = new ListUserController();
 const createEvaluationController = new CreateEvaluationController();
 const updateEvaluationController = new UpdateEvaluationController();
+const deleteEvaluationController = new DeleteEvaluationController();
 
 routes.post('/authenticate', authController.login);
 
@@ -48,6 +51,13 @@ routes.put(
   ensureAuthenticated,
   authorizeUpdateEvaluation(),
   updateEvaluationController.update,
+);
+
+routes.delete(
+  '/evaluations/:id',
+  ensureAuthenticated,
+  authorizeDeleteEvaluation(),
+  deleteEvaluationController.delete,
 );
 
 export { routes };

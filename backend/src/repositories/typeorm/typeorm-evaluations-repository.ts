@@ -26,4 +26,8 @@ export class TypeOrmEvaluationsRepository implements EvaluationsRepository {
 
     return this.repository.save(evaluation);
   }
+
+  async delete(id: string): Promise<void> {
+    await this.repository.delete(id);
+  }
 }
