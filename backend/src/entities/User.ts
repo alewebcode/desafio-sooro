@@ -1,11 +1,10 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn, OneToMany } from 'typeorm';
-import { v4 as uuid } from 'uuid';
+import { Entity, Column, CreateDateColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserToken } from './UserToken';
 import { ImcEvaluation } from './ImcEvaluation';
 
 @Entity('usuario')
 export class User {
-  @PrimaryColumn('text')
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column('text')
@@ -34,10 +33,4 @@ export class User {
 
   @OneToMany(() => ImcEvaluation, (avaliacao) => avaliacao.student)
   avaliacoesRecebidas!: ImcEvaluation[];
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
 }

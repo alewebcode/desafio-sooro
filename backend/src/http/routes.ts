@@ -15,6 +15,7 @@ import {
 import { UpdateEvaluationController } from './controllers/update-evaluation';
 import { DeleteEvaluationController } from './controllers/delete-evaluation';
 import { GetEvaluationController } from './controllers/get-evaluation';
+import { RefreshTokenController } from './controllers/refresh-token';
 
 const routes = Router();
 
@@ -27,6 +28,7 @@ const createEvaluationController = new CreateEvaluationController();
 const updateEvaluationController = new UpdateEvaluationController();
 const deleteEvaluationController = new DeleteEvaluationController();
 const getEvaluationController = new GetEvaluationController();
+const refreshTokenController = new RefreshTokenController();
 
 routes.post('/authenticate', authController.login);
 
@@ -63,5 +65,6 @@ routes.delete(
 );
 
 routes.get('/evaluations', ensureAuthenticated, getEvaluationController.list);
+routes.post('/refresh', refreshTokenController.handle);
 
 export { routes };

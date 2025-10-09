@@ -1,10 +1,16 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
-import { v4 as uuid } from 'uuid';
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { User } from './User';
 
 @Entity('usuario_token') // nome da tabela
 export class UserToken {
-  @PrimaryColumn('text')
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column('text')
@@ -25,10 +31,4 @@ export class UserToken {
   })
   @JoinColumn({ name: 'id_usuario' })
   user!: User;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
 }
