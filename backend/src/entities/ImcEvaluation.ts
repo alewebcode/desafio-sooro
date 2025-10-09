@@ -1,10 +1,17 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { User } from './User';
 
 @Entity('avaliacao_imc')
 export class ImcEvaluation {
-  @PrimaryColumn('text')
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column('decimal')
@@ -41,10 +48,4 @@ export class ImcEvaluation {
   })
   @JoinColumn({ name: 'id_usuario_aluno' })
   student!: User;
-
-  constructor() {
-    if (!this.id) {
-      this.id = uuid();
-    }
-  }
 }

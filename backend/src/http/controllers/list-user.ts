@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { makeListUserUseCase } from '../../use-cases/factories/make-list-user-use-case';
 
 export class ListUserController {
