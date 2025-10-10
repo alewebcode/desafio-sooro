@@ -2,6 +2,7 @@ import Sidebar from '@/components/SideBar';
 import { ChakraProviderWrapper } from '../../components/ChakraProviderWrapper';
 
 import { AuthProvider } from '@/context/AuthContext';
+import { Box, Flex } from '@chakra-ui/react';
 
 export default function RootLayout({
   children,
@@ -13,8 +14,17 @@ export default function RootLayout({
       <body>
         <ChakraProviderWrapper>
           <AuthProvider>
-            <Sidebar />
-            {children}
+            <Flex h="100vh">
+              {/* Sidebar fixa */}
+              <Box w="250px">
+                <Sidebar />
+              </Box>
+
+              {/* Conteúdo principal */}
+              <Box flex="1" p={4} overflowX="auto">
+                {children}
+              </Box>
+            </Flex>
           </AuthProvider>
         </ChakraProviderWrapper>
       </body>

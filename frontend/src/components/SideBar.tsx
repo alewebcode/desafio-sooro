@@ -16,6 +16,7 @@ import { IconType } from 'react-icons';
 import { FiHome, FiUsers, FiBarChart2, FiLogOut } from 'react-icons/fi';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 type NavItem = {
   label: string;
@@ -60,6 +61,17 @@ function NavLink({ item, active }: { item: NavItem; active?: boolean }) {
 
 export function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname() ?? '/';
+  const { user: currentUser } = useAuth();
+  if (!currentUser) return null;
+
+  const filteredNavItems = navItems.filter((item) => {
+    if (!currentUser) return false; // se não tiver usuário, não mostra nada
+    if (currentUser.role === 'aluno' && item.label === 'Usuários') {
+      return false;
+    }
+    return true;
+  });
+
   return (
     <Box
       as="nav"
@@ -86,7 +98,7 @@ export function SidebarContent({ onClose }: { onClose?: () => void }) {
         <Divider />
 
         <VStack align="stretch" spacing={1}>
-          {navItems.map((item) => (
+          {filteredNavItems.map((item) => (
             <Box key={item.href} onClick={onClose}>
               <NavLink item={item} active={pathname === item.href} />
             </Box>

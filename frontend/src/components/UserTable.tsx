@@ -12,32 +12,78 @@ import {
   IconButton,
   Text,
   Badge,
+  HStack,
+  useToast,
 } from '@chakra-ui/react';
-import { FiEdit } from 'react-icons/fi';
+import { FiEdit, FiToggleLeft, FiToggleRight, FiTrash2 } from 'react-icons/fi';
 import { useQuery } from '@tanstack/react-query';
-import { api } from '@/services/api';
 import { useRouter } from 'next/navigation';
+import { usersAPI } from '@/services/api/users';
+import { useAuth } from '@/context/AuthContext';
 
 interface User {
   id: string;
   nome: string;
-  email: string;
   perfil: string;
   situacao: string;
 }
 
 async function fetchUsers(): Promise<User[]> {
-  const { data } = await api.get('/users');
-  console.log(data);
-  return data;
+  return await usersAPI.getAll();
 }
 
 export default function UserTable() {
+  const toast = useToast();
   const router = useRouter();
-  const { data, isLoading, isError } = useQuery<User[]>({
+  const { user: currentUser } = useAuth();
+  if (!currentUser) return null;
+
+  const { data, isLoading, isError, refetch } = useQuery<User[]>({
     queryKey: ['users'],
     queryFn: fetchUsers,
   });
+
+  const handleDelete = async (id: string) => {
+    const confirmed = confirm('Deseja realmente excluir este usuário?');
+    if (!confirmed) return;
+
+    try {
+      await usersAPI.delete(id);
+      toast({
+        title: 'Usuário excluído',
+        status: 'success',
+        duration: 3000,
+      });
+      refetch(); // atualiza a lista
+    } catch (err: any) {
+      toast({
+        title: 'Erro ao excluir usuário',
+        description: err?.message || 'Tente novamente',
+        status: 'error',
+        duration: 5000,
+      });
+    }
+  };
+  const handleToggleStatus = async (user: User) => {
+    const newStatus = user.situacao === 'ativo' ? 'inativo' : 'ativo';
+
+    try {
+      await usersAPI.update(user.id, { situacao: newStatus });
+      toast({
+        title: `Usuário ${newStatus === 'ativo' ? 'ativado' : 'inativado'}`,
+        status: 'success',
+        duration: 3000,
+      });
+      refetch();
+    } catch (err: any) {
+      toast({
+        title: 'Erro ao atualizar status',
+        description: err?.message || 'Tente novamente',
+        status: 'error',
+        duration: 5000,
+      });
+    }
+  };
 
   if (isLoading)
     return (
@@ -58,7 +104,6 @@ export default function UserTable() {
       <Thead>
         <Tr>
           <Th>Nome</Th>
-          <Th>Email</Th>
           <Th>Perfil</Th>
           <Th>Status</Th>
           <Th>Ações</Th>
@@ -68,23 +113,41 @@ export default function UserTable() {
         {data?.map((user) => (
           <Tr key={user.id}>
             <Td>{user.nome}</Td>
-            <Td>{user.email}</Td>
-            <Td>
-              <Badge colorScheme="blue">{user.perfil}</Badge>
-            </Td>
+            <Td>{user.perfil}</Td>
             <Td>
               <Badge colorScheme={user.situacao === 'ativo' ? 'green' : 'red'}>
                 {user.situacao}
               </Badge>
             </Td>
             <Td>
-              <IconButton
-                aria-label="Editar usuário"
-                icon={<FiEdit />}
-                size="sm"
-                colorScheme="blue"
-                onClick={() => router.push(`/users/${user.id}/edit`)}
-              />
+              <HStack spacing={2}>
+                {currentUser.role === 'admin' && (
+                  <IconButton
+                    aria-label={user.situacao === 'ativo' ? 'Inativar usuário' : 'Ativar usuário'}
+                    icon={user.situacao === 'ativo' ? <FiToggleLeft /> : <FiToggleRight />}
+                    size="sm"
+                    colorScheme={user.situacao === 'ativo' ? 'orange' : 'green'}
+                    onClick={() => handleToggleStatus(user)}
+                  />
+                )}
+
+                <IconButton
+                  aria-label="Editar usuário"
+                  icon={<FiEdit />}
+                  size="sm"
+                  colorScheme="blue"
+                  onClick={() => router.push(`/users/${user.id}/edit`)}
+                />
+                {currentUser.role === 'admin' && (
+                  <IconButton
+                    aria-label="Excluir usuário"
+                    icon={<FiTrash2 />}
+                    size="sm"
+                    colorScheme="red"
+                    onClick={() => handleDelete(user.id)}
+                  />
+                )}
+              </HStack>
             </Td>
           </Tr>
         ))}
