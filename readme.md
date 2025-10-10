@@ -98,16 +98,21 @@ npm run dev ou yarn dev
 
 ### 🚀 Tecnologias Utilizadas
 
-Node.js
+- Node.js
+- Express
+- TypeORM
+- SQLite
+- React / Next.js (Frontend)
+- Chakra UI
+- React Query
 
-Express
+### Env Frontend
 
-TypeORM
+- NEXT_PUBLIC_API_URL=http://localhost:3333
 
-SQLite
+### Env Backend
 
-React / Next.js (Frontend)
-
-Chakra UI
-
-React Query
+- PORT = 3333
+- DB_PATH=./database.sqlite
+- JWT_SECRET=JWTSECRET
+- REFRESH_SECRET=REFRESH_SECRET
