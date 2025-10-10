@@ -1,50 +1,50 @@
-# Sistema de Acompanhamento de IMC da Academia
+# 🏋️‍♂️ Sistema de Acompanhamento de IMC da Academia
 
-Este projeto é um sistema web para academias que permite acompanhar a evolução do Índice de Massa Corporal (IMC) dos alunos.  
-A aplicação foi desenvolvida utilizando **Node.js**, **Express**, **TypeORM** (com SQLite), e segue boas práticas de arquitetura como **Use Cases** e **Factories**, valorizando princípios do **SOLID**.
+Este projeto é um sistema web para academias que permite acompanhar a evolução do **Índice de Massa Corporal (IMC)** dos alunos.  
+A aplicação foi desenvolvida utilizando **Node.js**, **Express**, **TypeORM** (com **SQLite**) e segue boas práticas de arquitetura como **Use Cases** e **Factories**, valorizando os princípios do **SOLID**.
 
 ---
 
-## 1. Visão Geral
+## 📘 1. Visão Geral
 
 O sistema permite:
 
-- Cadastro de usuários com perfis: **Administrador**, **Professor** e **Aluno**.
-- Ativação e inativação de usuários.
-- Cadastro de avaliações de IMC com base na altura e peso dos alunos.
-- Consulta das avaliações com filtros por aluno ou professor.
-- Autenticação segura com usuário e senha.
+- 👤 Cadastro de usuários com perfis: **Administrador**, **Professor** e **Aluno**.
+- 🔄 Ativação e inativação de usuários.
+- 🧮 Cadastro de avaliações de IMC com base na altura e peso dos alunos.
+- 🔍 Consulta das avaliações com filtros por aluno ou professor.
+- 🔐 Autenticação segura com usuário e senha.
 
 ---
 
-## 2. Perfis de Usuário e Regras de Negócio
+## 👥 2. Perfis de Usuário e Regras de Negócio
 
-### Administrador
+### 👑 Administrador
 
 - Pode cadastrar, editar e excluir usuários (exceto se houver avaliações vinculadas).
 - Pode cadastrar, editar e excluir avaliações de IMC.
 - Pode consultar avaliações de qualquer aluno.
 
-### Professor
+### 🎓 Professor
 
 - Pode cadastrar e editar alunos.
 - Pode cadastrar e editar avaliações de IMC.
-- Pode consultar avaliações apenas dos seus alunos.
+- Pode consultar avaliações **apenas dos seus alunos**.
 
-### Aluno
+### 🧍 Aluno
 
-- Pode consultar apenas suas próprias avaliações.
+- Pode consultar apenas **suas próprias avaliações**.
 
-### Usuários Inativos
+### 🚫 Usuários Inativos
 
 - Não podem acessar o sistema.
 - Não podem ter novas avaliações cadastradas.
 
 ---
 
-## 3. Classificação do IMC
+## ⚖️ 3. Classificação do IMC
 
-| IMC         | Classificação      |
+| IMC (kg/m²) | Classificação      |
 | ----------- | ------------------ |
 | < 18.5      | Abaixo do peso     |
 | 18.5 - 24.9 | Peso normal        |
@@ -55,56 +55,59 @@ O sistema permite:
 
 ---
 
-## 4. Estrutura do Projeto
+## 🧩 4. Estrutura do Projeto
 
-O projeto segue padrões de **Clean Architecture**, **SOLID** e boas práticas de desenvolvimento:
+O projeto segue uma estrutura baseada em **Clean Architecture**, **SOLID** e boas práticas de desenvolvimento:
 
-- **Controllers:** Recebem requisições HTTP e delegam a lógica.
-- **Use Cases:** Contêm a lógica de negócio de forma isolada, facilitando testes e manutenção.
-- **Repositories:** Interagem com o banco de dados.
-- **Factories:** Criam instâncias de objetos, desacoplando a criação de implementação concreta.
-- **Entities:** Representam modelos do domínio, como `User` e `Evaluation`.
+- **Controllers** → Recebem requisições HTTP e delegam a lógica para os casos de uso.
+- **Use Cases** → Contêm a lógica de negócio isolada, facilitando testes e manutenção.
+- **Repositories** → Responsáveis pela interação com o banco de dados.
+- **Factories** → Criam instâncias de objetos, desacoplando a implementação concreta.
+- **Entities** → Representam os modelos do domínio, como `User` e `Evaluation`.
 
-Exemplo de uso de **Use Case**:
+### 🧠 Exemplo de uso de Use Case
 
-````ts
+```ts
 const deleteUserUseCase = new DeleteUserUseCase(usersRepository);
 await deleteUserUseCase.execute(userId);
-
-
-## Como Executar
-
-### Pré-requisitos
-
-- Node.js >= 18
-- SQLite
-- Yarn ou NPM
+```
 
 ### Instalação
 
-```bash
 # Instalar dependências
+
 yarn install
+
 # ou
+
 npm install
-````
 
-### Migrations
+### Rodar as Migrations (TypeORM)
 
-npm run migration:run
+# Se estiver usando Yarn
 
-### Backend
+yarn typeorm migration:run
 
-yarn dev
+# Ou com NPM
 
-# ou
+npx typeorm migration:run
 
-npm run dev
+### Executar no front e back
 
-### Frontend
+npm run dev ou yarn dev
 
-yarn dev
+### 🚀 Tecnologias Utilizadas
 
-# ou
+Node.js
 
-npm run dev
+Express
+
+TypeORM
+
+SQLite
+
+React / Next.js (Frontend)
+
+Chakra UI
+
+React Query
