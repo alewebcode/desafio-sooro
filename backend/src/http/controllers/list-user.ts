@@ -5,7 +5,15 @@ export class ListUserController {
   async list(req: Request, res: Response): Promise<Response> {
     try {
       const listUserUseCase = makeListUserUseCase();
-      const { users } = await listUserUseCase.execute();
+      const currentUser = req.user!;
+
+      const result = await listUserUseCase.execute();
+      let { users } = result;
+
+      // Se o usuário logado for professor, filtra apenas alunos
+      if (currentUser.role === 'professor') {
+        users = users.filter((user) => user.perfil === 'aluno');
+      }
 
       return res.json(users);
     } catch (err: any) {
