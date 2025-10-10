@@ -44,7 +44,7 @@ export async function ensureAuthenticated(req: Request, res: Response, next: Nex
     }
 
     req.user = {
-      id: decoded.sub,
+      id: decoded.id,
       name: decoded.name,
       role: decoded.role,
       status: decoded.status,

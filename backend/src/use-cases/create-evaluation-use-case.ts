@@ -26,7 +26,7 @@ export class CreateEvaluationUseCase {
     const classificacao = classifyBMI(imc);
     const altura = parseFloat(payload.altura.toFixed(2));
     const peso = parseFloat(payload.peso.toFixed(2));
-
+    console.log(performedBy.id);
     const evaluation = await this.evaluationRepository.create({
       altura,
       peso,

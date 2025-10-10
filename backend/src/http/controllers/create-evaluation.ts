@@ -17,6 +17,7 @@ export class CreateEvaluationController {
     const payload = parsed.data;
 
     const currentUser = req.user!;
+    console.log(currentUser);
 
     try {
       const evaluationUseCase = makeCreateEvaluationUseCase();
