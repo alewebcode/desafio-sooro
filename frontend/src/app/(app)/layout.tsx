@@ -1,6 +1,7 @@
 import Sidebar from '@/components/SideBar';
-import { ChakraProviderWrapper } from '../components/ChakraProviderWrapper';
-import './globals.css';
+import { ChakraProviderWrapper } from '../../components/ChakraProviderWrapper';
+
+import { AuthProvider } from '@/context/AuthContext';
 
 export default function RootLayout({
   children,
@@ -11,8 +12,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ChakraProviderWrapper>
-          <Sidebar />
-          {children}
+          <AuthProvider>
+            <Sidebar />
+            {children}
+          </AuthProvider>
         </ChakraProviderWrapper>
       </body>
     </html>

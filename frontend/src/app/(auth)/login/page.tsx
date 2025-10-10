@@ -17,9 +17,8 @@ import {
 } from '@chakra-ui/react';
 
 import { useRouter } from 'next/navigation';
-import { api } from '@/services/api';
+import { useAuth } from '@/context/AuthContext';
 
-// Validação com Zod
 const loginSchema = z.object({
   user: z.string().min(3, 'Usuário obrigatório'),
   password: z.string().min(8, 'Senha obrigatória e deve ter no mínimo 8 caracteres'),
@@ -35,28 +34,26 @@ export default function LoginPage() {
   } = useForm<LoginFormInputs>({
     resolver: zodResolver(loginSchema),
   });
+
   const toast = useToast();
   const router = useRouter();
+  const { login } = useAuth(); // <<-- pega a função do AuthProvider
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
       setLoading(true);
-      const response = await api.post('/authenticate', data);
+      // chama a função do AuthProvider (que usa authAPI por baixo)
+      await login(data.user, data.password);
 
-      const { accessToken, refreshToken } = response.data;
-
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
-
-      document.cookie = `accessToken=${accessToken}; path=/; max-age=86400; SameSite=Strict`;
-      document.cookie = `refreshToken=${refreshToken}; path=/; max-age=604800; SameSite=Strict`;
-
-      router.push('/dashboard'); // Redireciona para página protegida
+      router.push('/dashboard');
     } catch (error: any) {
+      const message =
+        error?.response?.data?.message || error?.message || 'Erro desconhecido ao tentar logar';
+
       toast({
         title: 'Erro ao fazer login',
-        description: error.response?.data?.message || error.message,
+        description: message,
         status: 'error',
         duration: 4000,
         isClosable: true,

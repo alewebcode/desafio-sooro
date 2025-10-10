@@ -2,6 +2,7 @@
 
 import { ReactNode } from 'react';
 import { ChakraProvider, extendTheme, type ThemeConfig } from '@chakra-ui/react';
+import ReactQueryProvider from './ReactQueryProvider';
 
 const config: ThemeConfig = {
   initialColorMode: 'light',
@@ -27,5 +28,9 @@ const theme = extendTheme({
 });
 
 export function ChakraProviderWrapper({ children }: { children: ReactNode }) {
-  return <ChakraProvider theme={theme}>{children}</ChakraProvider>;
+  return (
+    <ChakraProvider theme={theme}>
+      <ReactQueryProvider>{children}</ReactQueryProvider>
+    </ChakraProvider>
+  );
 }
