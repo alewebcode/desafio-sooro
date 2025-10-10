@@ -1,0 +1,110 @@
+# Sistema de Acompanhamento de IMC da Academia
+
+Este projeto é um sistema web para academias que permite acompanhar a evolução do Índice de Massa Corporal (IMC) dos alunos.  
+A aplicação foi desenvolvida utilizando **Node.js**, **Express**, **TypeORM** (com SQLite), e segue boas práticas de arquitetura como **Use Cases** e **Factories**, valorizando princípios do **SOLID**.
+
+---
+
+## 1. Visão Geral
+
+O sistema permite:
+
+- Cadastro de usuários com perfis: **Administrador**, **Professor** e **Aluno**.
+- Ativação e inativação de usuários.
+- Cadastro de avaliações de IMC com base na altura e peso dos alunos.
+- Consulta das avaliações com filtros por aluno ou professor.
+- Autenticação segura com usuário e senha.
+
+---
+
+## 2. Perfis de Usuário e Regras de Negócio
+
+### Administrador
+
+- Pode cadastrar, editar e excluir usuários (exceto se houver avaliações vinculadas).
+- Pode cadastrar, editar e excluir avaliações de IMC.
+- Pode consultar avaliações de qualquer aluno.
+
+### Professor
+
+- Pode cadastrar e editar alunos.
+- Pode cadastrar e editar avaliações de IMC.
+- Pode consultar avaliações apenas dos seus alunos.
+
+### Aluno
+
+- Pode consultar apenas suas próprias avaliações.
+
+### Usuários Inativos
+
+- Não podem acessar o sistema.
+- Não podem ter novas avaliações cadastradas.
+
+---
+
+## 3. Classificação do IMC
+
+| IMC         | Classificação      |
+| ----------- | ------------------ |
+| < 18.5      | Abaixo do peso     |
+| 18.5 - 24.9 | Peso normal        |
+| 25 - 29.9   | Sobrepeso          |
+| 30 - 34.9   | Obesidade grau I   |
+| 35 - 39.9   | Obesidade grau II  |
+| ≥ 40        | Obesidade grau III |
+
+---
+
+## 4. Estrutura do Projeto
+
+O projeto segue padrões de **Clean Architecture**, **SOLID** e boas práticas de desenvolvimento:
+
+- **Controllers:** Recebem requisições HTTP e delegam a lógica.
+- **Use Cases:** Contêm a lógica de negócio de forma isolada, facilitando testes e manutenção.
+- **Repositories:** Interagem com o banco de dados.
+- **Factories:** Criam instâncias de objetos, desacoplando a criação de implementação concreta.
+- **Entities:** Representam modelos do domínio, como `User` e `Evaluation`.
+
+Exemplo de uso de **Use Case**:
+
+````ts
+const deleteUserUseCase = new DeleteUserUseCase(usersRepository);
+await deleteUserUseCase.execute(userId);
+
+
+## Como Executar
+
+### Pré-requisitos
+
+- Node.js >= 18
+- SQLite
+- Yarn ou NPM
+
+### Instalação
+
+```bash
+# Instalar dependências
+yarn install
+# ou
+npm install
+````
+
+### Migrations
+
+npm run migration:run
+
+### Backend
+
+yarn dev
+
+# ou
+
+npm run dev
+
+### Frontend
+
+yarn dev
+
+# ou
+
+npm run dev
