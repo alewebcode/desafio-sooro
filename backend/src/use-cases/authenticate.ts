@@ -31,7 +31,7 @@ export class AuthenticateUseCase {
     }
 
     const payload = {
-      sub: userFound.id,
+      id: userFound.id,
       name: userFound.nome,
       role: userFound.perfil,
       status: userFound.situacao,
@@ -54,6 +54,7 @@ export class AuthenticateUseCase {
       user: userFound,
     });
     return {
+      userAuthenticated: payload,
       accessToken,
       refreshToken,
     };
