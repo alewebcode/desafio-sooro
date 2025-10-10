@@ -2,6 +2,7 @@
 
 import { authAPI } from '@/services/api/auth';
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import Cookies from 'js-cookie';
 
 type User = {
   id: string;
@@ -73,6 +74,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', refreshToken);
         localStorage.setItem('user', JSON.stringify(userAuthenticated));
+
+        Cookies.set('accessToken', accessToken, { expires: 7 }); // ajusta expiração conforme quiser
+        Cookies.set('refreshToken', refreshToken, { expires: 7 });
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -89,6 +93,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('user');
     }
+
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
 
     authAPI.logout().catch(() => {});
   };
