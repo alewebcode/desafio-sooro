@@ -10,6 +10,7 @@ import {
   useColorModeValue,
   Divider,
   Flex,
+  Button,
 } from '@chakra-ui/react';
 
 import { IconType } from 'react-icons';
@@ -61,7 +62,7 @@ function NavLink({ item, active }: { item: NavItem; active?: boolean }) {
 
 export function SidebarContent({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname() ?? '/';
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, logout } = useAuth();
   if (!currentUser) return null;
 
   const filteredNavItems = navItems.filter((item) => {
@@ -107,7 +108,18 @@ export function SidebarContent({ onClose }: { onClose?: () => void }) {
 
         <Flex mt="auto" direction="column" gap={2}>
           <Divider />
-          <NavLink item={{ label: 'Logout', href: '/logout', icon: FiLogOut }} />
+          <Button
+            leftIcon={<FiLogOut />}
+            variant="ghost"
+            justifyContent="flex-start"
+            onClick={() => {
+              if (confirm('Deseja sair do sistema?')) {
+                logout();
+              }
+            }}
+          >
+            Logout
+          </Button>
         </Flex>
       </VStack>
     </Box>

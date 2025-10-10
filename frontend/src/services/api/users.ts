@@ -12,7 +12,7 @@ interface User {
   updatedAt: string;
 }
 
-interface UsersResponse {
+export interface UsersResponse {
   success: boolean;
   data: User[];
   meta?: {
