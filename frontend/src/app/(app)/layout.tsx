@@ -3,6 +3,7 @@ import { ChakraProviderWrapper } from '../../components/ChakraProviderWrapper';
 
 import { AuthProvider } from '@/context/AuthContext';
 import { Box, Flex } from '@chakra-ui/react';
+import { ProtectedRoute } from '@/components/ProtectedRoutes';
 
 export default function RootLayout({
   children,
@@ -22,7 +23,7 @@ export default function RootLayout({
 
               {/* Conteúdo principal */}
               <Box flex="1" p={4} overflowX="auto">
-                {children}
+                <ProtectedRoute>{children}</ProtectedRoute>
               </Box>
             </Flex>
           </AuthProvider>
