@@ -65,13 +65,6 @@ O projeto segue uma estrutura baseada em **Clean Architecture**, **SOLID** e boa
 - **Factories** → Criam instâncias de objetos, desacoplando a implementação concreta.
 - **Entities** → Representam os modelos do domínio, como `User` e `Evaluation`.
 
-### 🧠 Exemplo de uso de Use Case
-
-```ts
-const deleteUserUseCase = new DeleteUserUseCase(usersRepository);
-await deleteUserUseCase.execute(userId);
-```
-
 ### Instalação
 
 # Instalar dependências
@@ -116,3 +109,9 @@ npm run dev ou yarn dev
 - DB_PATH=./database.sqlite
 - JWT_SECRET=JWTSECRET
 - REFRESH_SECRET=REFRESH_SECRET
+
+### Acesso ao sistema
+
+Um usuário default é criado ao executar as migrations
+usuário:admin
+senha:admin123
