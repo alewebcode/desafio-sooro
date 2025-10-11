@@ -113,5 +113,6 @@ npm run dev ou yarn dev
 ### Acesso ao sistema
 
 Um usuário default é criado ao executar as migrations
-usuário:admin
-senha:admin123
+
+- usuário:admin
+- senha:admin123
